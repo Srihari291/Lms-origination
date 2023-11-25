@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page with Checklists, Input, and Output</title>
+  <style>
+    body, html {
+      height: 80%;
+      margin: 0;
+      padding: 0;
+      position: fixed;
+      bottom: 0;
+      width: 1260px;
+      font-family: Arial, sans-serif;
+      background: url('sample.jpg') no-repeat center center fixed;
+      /* Replace 'your-background-image.jpg' with the path to your image */
+      /* Adjust other background properties as needed */
+      background-size: cover;
+      background-color: #cedff5;
+    }
+    .container {
+      display: flex;
+      height: 100%;
+    }
+    .sidebar {
+      width: 25%;
+      height: 100%;
+      overflow-y: scroll;
+      border-right: 1px solid #ccc;
+      box-sizing: border-box;
+      padding: 20px;
+      background-color: #cedff5;
+    }
+    .checklist {
+      height: 50%;
+      overflow-y: scroll;
+    }
+    .main-content {
+      width: 75%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background-color: #cedff5;
+    }
+    .output-display {
+      flex: 8;
+      background-color: #e6e6e6;
+      padding: 20px;
+      position: relative;
+    }
+    #resultContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+ 
+    #resultContainer.show {
+            display: block;
+            margin-top: 20px;
+        }
+    .copy-button {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .input-area {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .fields-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-right: 10px;
+    }
+    .field label {
+      margin-bottom: 5px;
+    }
+    .input-field {
+      width: calc(100% - 28px);
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .arrow-button {
+      width: 24px;
+      height: 24px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+    .output-display {
+    white-space: pre-line;
+    background-color: #f8f8ff 
+   }
+    /* Styles for the popup */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Styles for the progress bar */
+    .progress-bar-container {
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-value {
+      width: 0;
+      height: 100%;
+      background-color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- First Part - Sidebar with Checklists -->
+    <div class="sidebar">
+      <div class="checklist">
+        <h3>Category</h3>
+        <!-- 32 checkboxes for Category -->
+        <!-- Replace checkbox names and values with your specific data -->
+        <!-- Include more checkboxes as needed -->
+        <label><input type="checkbox" name="category" value="Category 1">Aggregates<br></label>
+<label><input type="checkbox" name="category" value="Category 2">Applicant Import<br></label>
+<label><input type="checkbox" name="category" value="Category 3">Assignment<br></label>
+<label><input type="checkbox" name="category" value="Category 4">Approval Limits<br></label>
+<label><input type="checkbox" name="category" value="Category 5">Calculate<br></label>
+<label><input type="checkbox" name="category" value="Category 7">Counteroffer Processing<br></label>
+<label><input type="checkbox" name="category" value="Category 8">Credit Bureau Selection<br></label>
+<label><input type="checkbox" name="category" value="Category 9">Cross-sell Products<br></label>
+<label><input type="checkbox" name="category" value="Category 6">Concurrent Application Processing<br></label>
+<label><input type="checkbox" name="category" value="Category 10">Cross-sell Replacement Processing<br></label>
+<label><input type="checkbox" name="category" value="Category 11">Cross-sell Replacement Selection<br></label>
+<label><input type="checkbox" name="category" value="Category 12">Decisioning<br></label>
+<label><input type="checkbox" name="category" value="Category 13">Default Values<br></label>
+<label><input type="checkbox" name="category" value="Category 14">Disbursement<br></label>
+<label><input type="checkbox" name="category" value="Category 15">Document Generation<br></label>
+<label><input type="checkbox" name="category" value="Category 16">Document Selection<br></label>
+<label><input type="checkbox" name="category" value="Category 17">Editability<br></label>
+<label><input type="checkbox" name="category" value="Category 18">ESignature Default Values<br></label>
+<label><input type="checkbox" name="category" value="Category 19">Event Processing<br></label>
+<label><input type="checkbox" name="category" value="Category 20">Fees<br></label>
+<label><input type="checkbox" name="category" value="Category 21">Get New Member Account<br></label>
+<label><input type="checkbox" name="category" value="Category 22">Loan Covenants<br></label>
+<label><input type="checkbox" name="category" value="Category 23">Pricing<br></label>
+<label><input type="checkbox" name="category" value="Category 24">Product Selection<br></label>
+<label><input type="checkbox" name="category" value="Category 25">Promotions<br></label>
+<label><input type="checkbox" name="category" value="Category 26">Queuing<br></label>
+<label><input type="checkbox" name="category" value="Category 27">Ratios<br></label>
+<label><input type="checkbox" name="category" value="Category 28">Risk<br></label>
+<label><input type="checkbox" name="category" value="Category 29">Stipulations<br></label>
+<label><input type="checkbox" name="category" value="Category 30">TradeProcessing<br></label>
+<label><input type="checkbox" name="category" value="Category 31">Validation<br></label>
+        <!-- ... -->
+      </div>
+      <div class="checklist">
+        <h3>Entity</h3>
+        <!-- 61 checkboxes for Entity -->
+        <!-- Replace checkbox names and values with your specific data -->
+        <!-- Include more checkboxes as needed -->
+        <label><input type="checkbox" name="entity" value="Entity 1">Address<br></label>
+<label><input type="checkbox" name="entity" value="Entity 2">Aggregate<br></label>
+<label><input type="checkbox" name="entity" value="Entity 3">Applicant<br></label>
+<label><input type="checkbox" name="entity" value="Entity 4">Applicant.Addresses<br></label>
+<label><input type="checkbox" name="entity" value="Entity 5">Applicant.Aggrigates<br></label>
+<label><input type="checkbox" name="entity" value="Entity 6">Applicant.Assets<br></label>
+<label><input type="checkbox" name="entity" value="Entity 9">Applicant.CoreMessages<br></label>
+<label><input type="checkbox" name="entity" value="Entity 10">Applicant.CreditReports<br></label>
+<label><input type="checkbox" name="entity" value="Entity 11">Applicant.HostValues<br></label>
+<label><input type="checkbox" name="entity" value="Entity 12">Applicant.Incomes<br></label>
+<label><input type="checkbox" name="entity" value="Entity 13">Applicant.Liabilities<br></label>
+<label><input type="checkbox" name="entity" value="Entity 14">Applicant.LoanCovenants<br></label>
+<label><input type="checkbox" name="entity" value="Entity 15">Applicant.Phones<br></label>
+<label><input type="checkbox" name="entity" value="Entity 16">Applicant.Ratios<br></label>
+<label><input type="checkbox" name="entity" value="Entity 17">Applicant.References<br></label>
+<label><input type="checkbox" name="entity" value="Entity 18">Applicant.Scores<br></label>
+<label><input type="checkbox" name="entity" value="Entity 19">Application<br></label>
+<label><input type="checkbox" name="entity" value="Entity 20">Application.AccountProducts<br></label>
+<label><input type="checkbox" name="entity" value="Entity 21">Application.AggregateAnalysisList<br></label>
+<label><input type="checkbox" name="entity" value="Entity 22">Application.Aggregates<br></label>
+<label><input type="checkbox" name="entity" value="Entity 23">Application.Applicants<br></label>
+<label><input type="checkbox" name="entity" value="Entity 24">Application.Assets<br></label>
+<label><input type="checkbox" name="entity" value="Entity 25">Application.AttachedDocuments<br></label>
+<label><input type="checkbox" name="entity" value="Entity 26">Application.AuthorizedUser<br></label>
+<label><input type="checkbox" name="entity" value="Entity 27">Application.Collaterals<br></label>
+<label><input type="checkbox" name="entity" value="Entity 28">Application.CounterOffers<br></label>
+<label><input type="checkbox" name="entity" value="Entity 7">Applicant.AssociatedApplications<br></label>
+<label><input type="checkbox" name="entity" value="Entity 8">Applicant.AssociatedNonBorrowers<br></label>
+<label><input type="checkbox" name="entity" value="Entity 29">Application.DocumentVersions<br></label>
+<label><input type="checkbox" name="entity" value="Entity 30">Application.Fees<br></label>
+<label><input type="checkbox" name="entity" value="Entity 31">Application.Fundings<br></label>
+<label><input type="checkbox" name="entity" value="Entity 32">Application.Liabilies<br></label>
+<label><input type="checkbox" name="entity" value="Entity 33">Application.Ratios<br></label>
+<label><input type="checkbox" name="entity" value="Entity 34">Application.RecurringFees<br></label>
+<label><input type="checkbox" name="entity" value="Entity 35">Application.RejectionReasons<br></label>
+<label><input type="checkbox" name="entity" value="Entity 36">Application.ReviewIndicators<br></label>
+<label><input type="checkbox" name="entity" value="Entity 37">Application.Scores<br></label>
+<label><input type="checkbox" name="entity" value="Entity 38">Application.Scores<br></label>
+<label><input type="checkbox" name="entity" value="Entity 39">Application.Stipulations<br></label>
+<label><input type="checkbox" name="entity" value="Entity 40">Application.TralineIns<br></label>
+<label><input type="checkbox" name="entity" value="Entity 41">Application.Transfers<br></label>
+<label><input type="checkbox" name="entity" value="Entity 42">ApplicationAccountProduct.ApplicantMappings<br></label>
+<label><input type="checkbox" name="entity" value="Entity 43">ApplicationAccountProduct.DocumentVersions<br></label>
+<label><input type="checkbox" name="entity" value="Entity 44">ApplicationAccountProduct.Fees<br></label>
+<label><input type="checkbox" name="entity" value="Entity 45">ApplicationAccountProduct.Fundings<br></label>
+<label><input type="checkbox" name="entity" value="Entity 46">Asset<br></label>
+<label><input type="checkbox" name="entity" value="Entity 47">AuthorizedUser<br></label>
+<label><input type="checkbox" name="entity" value="Entity 48">AuthorizedUser.Addresses<br></label>
+<label><input type="checkbox" name="entity" value="Entity 49">AuthorizedUser.Phones<br></label>
+<label><input type="checkbox" name="entity" value="Entity 50">CCSCase<br></label>
+<label><input type="checkbox" name="entity" value="Entity 51">Collateral.CollateralRealEstateOrders<br></label>
+<label><input type="checkbox" name="entity" value="Entity 52">Collateral.CollateralValuations<br></label>
+<label><input type="checkbox" name="entity" value="Entity 53">Collateral.HousingExpenses<br></label>
+<label><input type="checkbox" name="entity" value="Entity 54">Collateral.Liens<br></label>
+<label><input type="checkbox" name="entity" value="Entity 55">Collateral.OtherOwners<br></label>
+<label><input type="checkbox" name="entity" value="Entity 56">Collateral.OtherOwners.Assets<br></label>
+<label><input type="checkbox" name="entity" value="Entity 57">Comment<br></label>
+<label><input type="checkbox" name="entity" value="Entity 58">Liability<br></label>
+<label><input type="checkbox" name="entity" value="Entity 59">Phone<br></label>
+<label><input type="checkbox" name="entity" value="Entity 60">Promotion<br></label>
+<label><input type="checkbox" name="entity" value="Entity 61">Ratio<br></label>
+<label><input type="checkbox" name="entity" value="Entity 62">Score<br></label>
+        <!-- ... -->
+      </div>
+    </div>
+
+    <!-- Second Part - Main Content -->
+    <div class="main-content">
+      <!-- Output Display -->
+      <div class="output-display">
+                <h9>Generated Rule Logic</h9>
+                <p id="ruleLogic"></p>
+        <textarea id="outputArea" rows="10" style="width: 100%;" readonly>Output Area</textarea>
+        <button class="copy-button">Copy</button>
+
+      </div>
+
+      <!-- Input Area and Fields -->
+      <div class="input-area">
+        <div class="fields-row">
+          <div class="field">
+            <label>Entity</label>
+            <input type="text" placeholder="Selected Entity" readonly class="input-field">
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <input type="text" placeholder="Selected Category" readonly class="input-field">
+          </div>
+          <div class="field">
+            <label>Name</label>
+            <input type="text" placeholder="Enter Name..." class="input-field">
+          </div>
+        </div>
+        <div class="field">
+          <input type="text" id="userInput" placeholder="Input Field..." class="input-field">
+          <button class="arrow-button" onclick="processUserInput()">&#10148;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup container -->
+  <div id="popup">
+    <p id="popupText">Stage 1: GAN is reviewing your inputs</p>
+    <!-- Progress bar for Stage 1 -->
+    <div class="progress-bar-container">
+      <div class="progress-bar">
+        <div class="progress-value" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the script code at the end of the HTML body -->
+  <script>
+    function showPopup() {
+      // Display the popup
+      document.getElementById('popup').style.display = 'block';
+
+      // Stage 1: GAN is reviewing your inputs
+      document.getElementById('popupText').innerText = 'Stage 1: GAN is reviewing your inputs';
+
+      // Fill progress bar for the first stage
+      fillProgressBar('progressBar', 33);
+
+      // Simulate delay for the first stage
+      setTimeout(function () {
+        // Stage 2: Please wait while we process your request
+        document.getElementById('popupText').innerText = 'Stage 2: Please wait while we process your request';
+
+        // Fill progress bar for the second stage
+        fillProgressBar('progressBar', 66);
+
+        // Simulate delay for the second stage
+        setTimeout(function () {
+          // Stage 3: AI has processed your request, please check output area
+          document.getElementById('popupText').innerText = 'Stage 3: AI has processed your request, please check output area';
+
+          // Fill progress bar for the third stage
+          fillProgressBar('progressBar', 100);
+
+          // Simulate delay for the third stage
+          setTimeout(function () {
+            // Hide the popup after all stages are complete
+            document.getElementById('popup').style.display = 'none';
+
+            // Get the user input
+            var userInput = document.getElementById('userInput').value;
+
+            // Perform any processing on the user input as needed
+            var processedOutput = `IF
+      BirthDate is after Today
+    THEN  
+      Display an error message of 'Birth date can not be in the future. Please verify and update'`;
+
+            document.getElementById('outputArea').innerHTML = processedOutput;
+          }, 3000); // 3000 milliseconds (3 seconds) for the third stage
+        }, 2000); // 2000 milliseconds (2 seconds) for the second stage
+      }, 2000); // 2000 milliseconds (2 seconds) for the first stage
+    }
+
+    function fillProgressBar(progressBarId, value) {
+      // Update progress bar value
+      document.getElementById(progressBarId).style.width = value + '%';
+    }
+
+    function processUserInput() {
+      // Show the popup with three stages
+      showPopup();
+    }
+
+
+  function copyOutput() {
+    // Select the output area textarea
+    var outputTextArea = document.getElementById('outputArea');
+
+    // Select the text in the textarea
+    outputTextArea.select();
+    outputTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+
+    // Deselect the text
+    window.getSelection().removeAllRanges();
+
+    // Inform the user that the text has been copied
+    alert('Copied to clipboard: ' + outputTextArea.value);
+  }
+
+  // Attach an event listener to the copy button
+  document.querySelector('.copy-button').addEventListener('click', copyOutput);
+</script>
+</body>
+</html>
